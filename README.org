@@ -1,0 +1,6 @@
+#+title: CLI Task Tracker
+#+author: vinci
+
+* CLI Task Tracker
+
+Lorem ipsum suck mah ...
