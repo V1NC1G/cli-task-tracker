@@ -42,13 +42,29 @@ class TaskManager:
                 return task
         return None
 
+    def list_task(self):
+        for task_item in self.tasks:
+            print("\n")
+            print(f"ID: {task_item['id']}")
+            print(f"Task: {task_item['description']}")
+            print(f"Status: {task_item['status'].upper()}")
+            print("\n")
+
 
 def main():
     task_manager = TaskManager()
     while True:
-        action = input("Command: ")
+        command = input("Command: ")
+        action = command.split()[0]
+
         if action == "add":
-            task_manager.add_task()
+            description = " ".join(command.split()[1:])
+            task_manager.add_task(description)
+        elif action == "list":
+            task_manager.list_task()
+        elif action == "end":
+            print("Ending task manager program...")
+            return False
 
 
 if __name__ == "__main__":
