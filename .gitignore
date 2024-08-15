@@ -1,0 +1,2 @@
+# ignore tasks.json file where tasks are stored for a user
+tasks.json

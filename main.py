@@ -1,67 +1,55 @@
 from datetime import datetime
 import json
-
-print("Actions:")
-print("add <Item/Task>")
-print("update <Item/Task>")
-print("delete <Item/Task>")
-print("\n")
-
-data = {
-    "tasks": []
-}
-
-id = 0
-
-with open("./tasks.json", "w"):
-    print("created a file")
+import string
+import random
 
 
-def user_input():
-    user_input = input("What do you want to do?: ")
-    action = user_input.split()[0]
-    task = " ".join(user_input.split()[1:])
-    print(f"Action: {action}")
-    print(f"Task: {task}")
+class TaskManager:
 
-    if action == "add":
-        new_task = json.dumps(add_task(task))
-        with open("tasks.json", "w") as file:
-            file.write(new_task)
+    def __init__(self, tasks=[]):
+        self.tasks = tasks
+        self.id = 1
 
-    return action, task
+    def add_task(self, description):
+        task_item = {
+            "id": self.id,
+            "description": description,
+            "status": "todo",
+            "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        self.id += 1
+        self.tasks.append(task_item)
+
+        print(f"Task successfully added (ID:{task_item['id']})")
+        return
+
+    def update_task(self, id, description, status=None):
+        task = self.get_task_by_id(id)
+        task["description"] = description
+        if status:
+            task["status"] = status
+        return
+
+    def delete_task(self, id):
+        task = self.get_task_by_id(id)
+        self.task.remove(task)
+
+    def get_task_by_id(self, id):
+        for task in self.tasks:
+            if task.id == id:
+                return task
+        return None
 
 
-def add_task(task):
-    task_item = {
-        "id": id + 1,
-        "description": task,
-        "status": "todo",
-        "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }
-
-    print(f"Task successfully added (ID:{task_item['id']})")
-
-    return task_item
+def main():
+    task_manager = TaskManager()
+    while True:
+        action = input("Command: ")
+        if action == "add":
+            task_manager.add_task()
 
 
-def update_task(task_id, task):
-    for task_item in data["tasks"]:
-        if task_item.id == task_id:
-            task_item["description"] = task
-            task_item["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    print(f"Updated Task ID:{task_id}")
-    return 
-
-
-def delete_task(task_id):
-    for task_item in data["tasks"]:
-        if task_item.id == task_id:
-            # remove item
-            return
-
-    return
-
-print(user_input())
+if __name__ == "__main__":
+    main()
