@@ -24,11 +24,8 @@ def is_tasks_list_present():
 
 def populate_tasks(tasks):
     with open("./tasks.json", "w") as file:
-        pass
-    # get task_manager.tasks array
-    # turn it to json
-    # put inside tasks.json
-    pass
+        data = json.dumps(tasks)
+        file.write(data)
 
 
 def main():
@@ -80,6 +77,7 @@ def main():
             task_manager.list_done()
 
         elif action == "end":
+            populate_tasks(task_manager.tasks)
             print("Ending task manager program...")
             return False
 
