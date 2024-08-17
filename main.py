@@ -1,108 +1,43 @@
-from datetime import datetime
+import os
 import json
-import string
-import random
+from task_manager import TaskManager
+
+# TODO:
+# Put data in a JSON file
+# Handle edge cases
+# Add unit tests
 
 
-class TaskManager:
+def read_tasks_json():
+    with open("./tasks.json", "r") as file:
+        content = file.read()
+        tasks_list = json.loads(content)
+        return tasks_list
 
-    def __init__(self, tasks=[]):
-        self.tasks = tasks
-        self.id = 1
 
-    def add_task(self, description):
-        task_item = {
-            "id": self.id,
-            "description": description,
-            "status": "todo",
-            "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        }
+def is_tasks_list_present():
+    if os.path.exists("./tasks.json"):
+        return True
+    else:
+        return False
 
-        self.id += 1
-        self.tasks.append(task_item)
 
-        print(f"Task successfully added (ID:{task_item['id']})")
-        return
-
-    def update_task(self, id, description):
-        task = self.get_task_by_id(id)
-        task["description"] = description
-        print(f"Task (ID: {id}) updated")
-        return
-
-    def delete_task(self, id):
-        task = self.get_task_by_id(id)
-        self.tasks.remove(task)
-        print(f"Deleted task (ID: {id})")
-        return
-
-    def get_task_by_id(self, id):
-        for task in self.tasks:
-            if task["id"] == id:
-                return task
-        return None
-
-    def mark_todo(self, id):
-        task = self.get_task_by_id(id)
-        task["status"] = "todo"
-        print(f"Marked task (ID: {id}) as TODO.")
-        return
-
-    def mark_in_progress(self, id):
-        task = self.get_task_by_id(id)
-        task["status"] = "in progress"
-        print(f"Marked task (ID: {id}) as IN PROGRESS.")
-        return
-
-    def mark_done(self, id):
-        task = self.get_task_by_id(id)
-        task["status"] = "done"
-        print(f"Marked task (ID: {id}) as DONE.")
-        return
-
-    def list_task(self):
-        for task_item in self.tasks:
-            print("\n")
-            print(f"ID: {task_item['id']}")
-            print(f"Task: {task_item['description']}")
-            print(f"Status: {task_item['status'].upper()}")
-            print("\n")
-        return
-
-    def list_todo(self):
-        for task_item in self.tasks:
-            if task_item["status"] == "todo":
-                print("\n")
-                print(f"ID: {task_item['id']}")
-                print(f"Task: {task_item['description']}")
-                print(f"Status: {task_item['status'].upper()}")
-                print("\n")
-        return
-
-    def list_in_progress(self):
-        for task_item in self.tasks:
-            if task_item["status"] == "in progress":
-                print("\n")
-                print(f"ID: {task_item['id']}")
-                print(f"Task: {task_item['description']}")
-                print(f"Status: {task_item['status'].upper()}")
-                print("\n")
-        return
-
-    def list_done(self):
-        for task_item in self.tasks:
-            if task_item["status"] == "done":
-                print("\n")
-                print(f"ID: {task_item['id']}")
-                print(f"Task: {task_item['description']}")
-                print(f"Status: {task_item['status'].upper()}")
-                print("\n")
-        return
+def populate_tasks(tasks):
+    with open("./tasks.json", "w") as file:
+        pass
+    # get task_manager.tasks array
+    # turn it to json
+    # put inside tasks.json
+    pass
 
 
 def main():
-    task_manager = TaskManager()
+    if is_tasks_list_present():
+        tasks_list = read_tasks_json()
+        task_manager = TaskManager(tasks_list)
+    else:
+        task_manager = TaskManager()
+
     while True:
         command = input("Command: ")
         action = command.split()[0]
