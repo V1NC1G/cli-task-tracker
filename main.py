@@ -2,11 +2,6 @@ import os
 import json
 from task_manager import TaskManager
 
-# TODO:
-# Put data in a JSON file
-# Handle edge cases
-# Add unit tests
-
 
 def read_tasks_json():
     with open("./tasks.json", "r") as file:
@@ -80,6 +75,9 @@ def main():
             populate_tasks(task_manager.tasks)
             print("Ending task manager program...")
             return False
+
+        else:
+            print(f"Action: {action} is not defined")
 
 
 if __name__ == "__main__":
